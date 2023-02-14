@@ -8,11 +8,15 @@ contract LandInit {
         string state;
         string district;
         string subdivision;
-        uint256 val_INR; //Round figure always
-        uint256 area_HA; //Multiplier is 1000, so 3 decimal places allowed
+        uint256 val_inr; //Round figure always
+        uint256 area_ha; //Multiplier is 1000, so 3 decimal places allowed
     }
 
     struct user_details {
         string[] full_name;
+        string aadhar_no;
+        string pan_no;
     }
+
+    function registerUser() 
 }
