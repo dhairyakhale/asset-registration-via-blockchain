@@ -19,6 +19,20 @@ contract LandInit {
         string pan_no;
     }
 
+    function createUserStruct(
+        string[] memory _full_name,
+        string memory _aadhar_no,
+        string memory _pan_no
+    ) public returns (user_details memory) {
+        user_details memory user;
+
+        user.full_name = _full_name;
+        user.aadhar_no = _aadhar_no;
+        user.pan_no = _pan_no;
+
+        return user;
+    }
+
     function registerUser(user_details memory user) public {
         // Check if hash exists from before
         // Auth for all user details
@@ -32,5 +46,7 @@ contract LandInit {
         // generate hash and list on blockchain
     }
 
-    function transactLand() public {}
+    function transactLand() public {
+        // arguments : land id, id of seller, id of buyer, land details agreed upon both parties,-+
+    }
 }
