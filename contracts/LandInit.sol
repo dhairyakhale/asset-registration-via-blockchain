@@ -5,7 +5,6 @@ pragma experimental ABIEncoderV2;
 
 contract LandInit {
     struct land_details {
-        uint256[] landID; //Slashes mean moving ahead in index
         string state;
         string district;
         string subdivision;
@@ -19,12 +18,25 @@ contract LandInit {
         string pan_no;
     }
 
+    address owner;
+
+    constructor() public {
+        owner = msg.sender;
+    }
+
+    user_details[] user_list;
+    mapping(string => user_details[]) owner_info;
+    mapping(string => land_details) land_info;
+
     function createUserStruct(
         string[] memory _full_name,
         string memory _aadhar_no,
         string memory _pan_no
     ) public returns (user_details memory) {
         user_details memory user;
+
+        // check if the _pan_no and _aadhar_no is valid
+        // check if user is a valid person (above agelimit)
 
         user.full_name = _full_name;
         user.aadhar_no = _aadhar_no;
@@ -34,9 +46,9 @@ contract LandInit {
     }
 
     function registerUser(user_details memory user) public {
-        // Check if hash exists from before
-        // Auth for all user details
-        // Check eligibility to make land txn
+        // check if user does not exist
+        // if it does:
+        // save user in the database
     }
 
     function registerLand() public {
@@ -46,7 +58,9 @@ contract LandInit {
         // generate hash and list on blockchain
     }
 
-    function transactLand() public {
-        // arguments : land id, id of seller, id of buyer, land details agreed upon both parties,-+
-    }
+    function transactLand(
+        user_details memory _buyer,
+        user_details memory _seller,
+        land_details memory _land
+    ) public {}
 }
