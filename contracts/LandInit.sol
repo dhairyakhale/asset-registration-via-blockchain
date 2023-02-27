@@ -14,6 +14,7 @@ contract LandInit {
 
     struct user_details {
         string[] full_name;
+        uint256 dob;
         string aadhar_no;
         string pan_no;
     }
@@ -30,6 +31,7 @@ contract LandInit {
 
     function createUserStruct(
         string[] memory _full_name,
+        uint256 _dob,
         string memory _aadhar_no,
         string memory _pan_no
     ) public returns (user_details memory) {
@@ -41,6 +43,7 @@ contract LandInit {
         user.full_name = _full_name;
         user.aadhar_no = _aadhar_no;
         user.pan_no = _pan_no;
+        user.dob = _dob;
 
         return user;
     }
