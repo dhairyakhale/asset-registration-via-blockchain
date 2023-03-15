@@ -49,13 +49,28 @@ contract LandInit {
     }
 
     function registerUser(user_details memory _user) public {
-        user_details storage user;
-
         // check if user does not exist
         bool found = false;
 
-        for (uint i = 0; i < user_list.length; i++) {
-            if (user_list[i] == user) found = true;
+        for (uint256 i = 0; i < user_list.length; i++) {
+            if (
+                keccak256(
+                    abi.encodePacked(
+                        user_list[i].full_name,
+                        user_list[i].aadhar_no,
+                        user_list[i].pan_no,
+                        user_list[i].dob
+                    )
+                ) ==
+                keccak256(
+                    abi.encodePacked(
+                        _user.full_name,
+                        _user.aadhar_no,
+                        _user.pan_no,
+                        _user.dob
+                    )
+                )
+            ) found = true;
         }
         // if it does not:
         // save user in the database
