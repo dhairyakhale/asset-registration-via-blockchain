@@ -19,15 +19,15 @@ contract LandInit {
         string pan_no;
     }
 
-    address owner;
+    address curruser;
 
     constructor() public {
-        owner = msg.sender;
+        curruser = msg.sender;
     }
 
     user_details[] user_list;
+    mapping(string => land_details) land_info; //Indirect mapping from land to users
     mapping(string => user_details[]) owner_info;
-    mapping(string => land_details) land_info;
 
     function createUserStruct(
         string[] memory _full_name,
@@ -48,9 +48,16 @@ contract LandInit {
         return user;
     }
 
-    function registerUser(user_details memory user) public {
+    function registerUser(user_details memory _user) public {
+        user_details storage user;
+
         // check if user does not exist
-        // if it does:
+        bool found = false;
+
+        for (uint i = 0; i < user_list.length; i++) {
+            if (user_list[i] == user) found = true;
+        }
+        // if it does not:
         // save user in the database
     }
 
