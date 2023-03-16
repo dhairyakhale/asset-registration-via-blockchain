@@ -5,6 +5,7 @@ pragma experimental ABIEncoderV2;
 
 contract LandInit {
     struct land_details {
+        uint32[] land_id;
         string state;
         string district;
         string subdivision;
@@ -13,6 +14,7 @@ contract LandInit {
     }
 
     struct user_details {
+        string username;
         string[] full_name;
         uint256 dob;
         string aadhar_no;
@@ -25,21 +27,23 @@ contract LandInit {
         curruser = msg.sender;
     }
 
-    user_details[] user_list;
-    mapping(string => land_details) land_info; //Indirect mapping from land to users
-    mapping(string => user_details[]) owner_info;
+    string[] user_list;
+    mapping(bytes32 => land_details) land_info; //Indirect mapping from land to users
+    mapping(bytes32 => user_details) owner_info;
 
     function createUserStruct(
+        string memory _username,
         string[] memory _full_name,
         uint256 _dob,
         string memory _aadhar_no,
         string memory _pan_no
     ) public returns (user_details memory) {
-        user_details memory user;
+        user_details storage user;
 
         // check if the _pan_no and _aadhar_no is valid
         // check if user is a valid person (above agelimit)
 
+        user.username = _username;
         user.full_name = _full_name;
         user.aadhar_no = _aadhar_no;
         user.pan_no = _pan_no;
@@ -48,32 +52,26 @@ contract LandInit {
         return user;
     }
 
-    function registerUser(user_details memory _user) public {
+    function registerUser(string memory _username) public {
         // check if user does not exist
-        bool found = false;
 
         for (uint256 i = 0; i < user_list.length; i++) {
             if (
-                keccak256(
-                    abi.encodePacked(
-                        user_list[i].full_name,
-                        user_list[i].aadhar_no,
-                        user_list[i].pan_no,
-                        user_list[i].dob
-                    )
-                ) ==
-                keccak256(
-                    abi.encodePacked(
-                        _user.full_name,
-                        _user.aadhar_no,
-                        _user.pan_no,
-                        _user.dob
-                    )
-                )
-            ) found = true;
+                keccak256(abi.encode(_username)) ==
+                keccak256(abi.encode(user_list[i]))
+            ) {
+                //found
+                return;
+            }
         }
         // if it does not:
         // save user in the database
+        user_details memory newuser = createUserStruct(
+            _full_name,
+            _dob,
+            _aadhar_no,
+            _pan_no
+        );
     }
 
     function registerLand() public {
