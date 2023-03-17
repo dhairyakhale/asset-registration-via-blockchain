@@ -27,7 +27,8 @@ contract LandInit {
         curruser = msg.sender;
     }
 
-    string[] user_list;
+    string[] usernames;
+    mapping(string => user_details) user_list;
     mapping(bytes32 => land_details) land_info; //Indirect mapping from land to users
     mapping(bytes32 => user_details) owner_info;
 
@@ -38,7 +39,7 @@ contract LandInit {
         string memory _aadhar_no,
         string memory _pan_no
     ) public returns (user_details memory) {
-        user_details storage user;
+        user_details memory user;
 
         // check if the _pan_no and _aadhar_no is valid
         // check if user is a valid person (above agelimit)
@@ -55,10 +56,10 @@ contract LandInit {
     function registerUser(string memory _username) public {
         // check if user does not exist
 
-        for (uint256 i = 0; i < user_list.length; i++) {
+        for (uint256 i = 0; i < usernames.length; i++) {
             if (
                 keccak256(abi.encode(_username)) ==
-                keccak256(abi.encode(user_list[i]))
+                keccak256(abi.encode(usernames[i]))
             ) {
                 //found
                 return;
@@ -67,11 +68,15 @@ contract LandInit {
         // if it does not:
         // save user in the database
         user_details memory newuser = createUserStruct(
+            _username,
             _full_name,
             _dob,
             _aadhar_no,
             _pan_no
-        );
+        ); //take inputs
+
+        usernames.push(_username);
+        user_list[_username] = newuser;
     }
 
     function registerLand() public {
