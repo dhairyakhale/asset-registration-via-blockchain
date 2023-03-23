@@ -53,16 +53,27 @@ contract LandInit {
         return user;
     }
 
-    function registerUser(string memory _username) public {
-        // check if user does not exist
-
+    function verifyOwner(string memory _username) public returns (bool) {
         for (uint256 i = 0; i < usernames.length; i++) {
             if (
                 keccak256(abi.encode(_username)) ==
                 keccak256(abi.encode(usernames[i]))
             ) {
                 //found
-                return;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function registerUser(string memory _username) public {
+        // check if user does not exist
+
+        for (uint256 i = 0; i < usernames.length; i++) {
+            if (verifyOwner(_username)) {
+                //found
+                return true;
             }
         }
         // if it does not:
@@ -79,10 +90,12 @@ contract LandInit {
         user_list[_username] = newuser;
     }
 
-    function registerLand() public {
+    function registerLand(string memory _username) public {
         // Check if land ID exists or not
         // Check and verify if owner exists in system
+        if (!verifyOwner(_username)) return;
         // save land in database
+
         // generate hash and list on blockchain
     }
 
