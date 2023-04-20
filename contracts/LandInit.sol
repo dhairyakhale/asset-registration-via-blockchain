@@ -8,7 +8,6 @@ contract LandInit {
         uint32[] land_id;
         string state;
         string district;
-        string subdivision;
         uint256 val_inr; //Round figure always
         uint256 area_ha; //Multiplier is 1000, so 3 decimal places allowed
     }
@@ -67,13 +66,19 @@ contract LandInit {
         return false;
     }
 
-    function registerUser(string memory _username) public {
+    function registerUser(
+        string memory _username,
+        string[] memory _full_name,
+        uint256 _dob,
+        string memory _aadhar_no,
+        string memory _pan_no
+    ) public {
         // check if user does not exist
 
         for (uint256 i = 0; i < usernames.length; i++) {
             if (verifyOwner(_username)) {
                 //found
-                return true;
+                return;
             }
         }
         // if it does not:
@@ -96,7 +101,7 @@ contract LandInit {
         if (!verifyOwner(_username)) return;
         // save land in database
 
-        // generate hash and list on blockchain
+        // mint nft by details
     }
 
     function transactLand(
