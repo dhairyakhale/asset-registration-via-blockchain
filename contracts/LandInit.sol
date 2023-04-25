@@ -1,11 +1,13 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity >=0.6.0 <=0.8.0;
+pragma solidity ^0.8.4;
 pragma experimental ABIEncoderV2;
+
+import "./NFTHandling.sol";
 
 contract LandInit {
     struct land_details {
-        uint32[] land_id;
+        string land_id;
         string state;
         string district;
         uint256 val_inr; //Round figure always
@@ -28,8 +30,10 @@ contract LandInit {
 
     string[] usernames;
     mapping(string => user_details) user_list;
-    mapping(bytes32 => land_details) land_info; //Indirect mapping from land to users
-    mapping(bytes32 => user_details) owner_info;
+    mapping(string => land_details) land_info; //Indirect mapping from land to users (ID->land)
+    mapping(string => string[]) owner_info; //ID->username
+
+    // mapping(address => string) acc_to_uname;
 
     function createUserStruct(
         string memory _username,
@@ -105,8 +109,8 @@ contract LandInit {
     }
 
     function transactLand(
-        user_details memory _buyer,
-        user_details memory _seller,
+        string memory _buyer,
+        string memory _seller,
         land_details memory _land
     ) public {}
 }
