@@ -135,9 +135,5 @@ contract LandInit {
         // mint nft by details
     }
 
-    function transactLand(
-        string memory _buyer,
-        string memory _seller,
-        string memory _land_id
-    ) public {}
+    // removed TransactLand()
 }
