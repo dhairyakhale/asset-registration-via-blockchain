@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity >=0.6.0 <0.8.0;
+pragma solidity >=0.6.0 <0.9.0;
 pragma experimental ABIEncoderV2;
 
 import "./NFTHandling.sol";
@@ -121,14 +121,17 @@ contract LandInit {
 
     // do this properly
     function registerLand(
-        string _owner,
-        string _land_id,
-        string _state,
-        string _district,
+        string memory _owner,
+        string memory _land_id,
+        string memory _state,
+        string memory _district,
         uint256 _val_inr,
         uint256 _area_ha
     ) public {
-        if (_owner != addr_to_uname[curruser]) {
+        if (
+            keccak256(abi.encode(_owner)) !=
+            keccak256(abi.encode(addr_to_uname[curruser]))
+        ) {
             // Check and verify if owner exists in system
             if (!verifyOwner(_owner)) return;
         }
