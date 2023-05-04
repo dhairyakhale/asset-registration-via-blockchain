@@ -10,8 +10,8 @@ contract LandInit {
         string land_id;
         string state;
         string district;
-        uint256 val_inr; //Round figure always
-        uint256 area_ha; //Multiplier is 1000, so 3 decimal places allowed
+        uint256 val_inr;
+        uint256 area_ha;
     }
 
     struct user_details {
@@ -137,6 +137,4 @@ contract LandInit {
         }
         // mint nft by details
     }
-
-    // removed TransactLand()
 }
