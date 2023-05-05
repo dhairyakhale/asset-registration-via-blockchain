@@ -44,7 +44,7 @@ contract LandInit {
         uint256 _dob,
         string memory _aadhar_no,
         string memory _pan_no
-    ) public returns (user_details memory) {
+    ) public pure returns (user_details memory) {
         user_details memory user;
 
         // check if the _pan_no and _aadhar_no is valid
@@ -60,7 +60,7 @@ contract LandInit {
         return user;
     }
 
-    function verifyOwner(string memory _username) public returns (bool) {
+    function verifyOwner(string memory _username) public view returns (bool) {
         for (uint256 i = 0; i < usernames.length; i++) {
             if (
                 keccak256(abi.encode(_username)) ==
@@ -74,7 +74,7 @@ contract LandInit {
         return false;
     }
 
-    function verifyLand(string memory _land_id) public returns (bool) {
+    function verifyLand(string memory _land_id) public view returns (bool) {
         for (uint256 i = 0; i < land_id_list.length; i++) {
             if (
                 keccak256(abi.encode(_land_id)) ==
