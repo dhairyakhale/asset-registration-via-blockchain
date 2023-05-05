@@ -2,9 +2,10 @@ from brownie import accounts, config, LandInit, NFTHandling, network
 from scripts.json_handler import create_txn_json, create_nft_json
 
 
-def deploy_land_init():
+def deploy_all():
     account = get_account()
     land_init = LandInit.deploy({"from": account})
+    nft_handling = NFTHandling.deploy({"from": account})
 
 
 def get_account():
@@ -15,4 +16,4 @@ def get_account():
 
 
 def main():
-    deploy_land_init()
+    deploy_all()
