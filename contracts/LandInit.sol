@@ -3,7 +3,7 @@
 pragma solidity >=0.6.0 <0.9.0;
 pragma experimental ABIEncoderV2;
 
-import "./NFTHandling.sol";
+import "./LandToken.sol";
 
 contract LandInit {
     struct land_details {
