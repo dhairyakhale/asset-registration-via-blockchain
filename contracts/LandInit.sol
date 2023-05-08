@@ -17,16 +17,9 @@ contract LandInit {
     struct user_details {
         string username;
         address wallet_addr;
-        string[] full_name;
-        uint256 dob;
+        string full_name;
         string aadhar_no;
         string pan_no;
-    }
-
-    address curruser;
-
-    constructor() public {
-        curruser = msg.sender;
     }
 
     string[] usernames;
@@ -40,8 +33,7 @@ contract LandInit {
     function createUserStruct(
         string memory _username,
         address _wallet_addr,
-        string[] memory _full_name,
-        uint256 _dob,
+        string memory _full_name,
         string memory _aadhar_no,
         string memory _pan_no
     ) public pure returns (user_details memory) {
@@ -55,7 +47,6 @@ contract LandInit {
         user.full_name = _full_name;
         user.aadhar_no = _aadhar_no;
         user.pan_no = _pan_no;
-        user.dob = _dob;
 
         return user;
     }
@@ -90,27 +81,27 @@ contract LandInit {
 
     function registerUser(
         string memory _username,
-        string[] memory _full_name,
-        uint256 _dob,
+        address _wallet_addr,
+        string memory _full_name,
+        // uint256 _dob,
         string memory _aadhar_no,
         string memory _pan_no
     ) public {
         // check if user does not exist
 
-        for (uint256 i = 0; i < usernames.length; i++) {
-            if (verifyOwner(_username)) {
-                //found
-                return;
-            }
-        }
+        // for (uint256 i = 0; i < usernames.length; i++) {
+        //     if (verifyOwner(_username)) {
+        //         //found
+        //         return;
+        //     }
+        // }
 
         // if it does not:
         // save user in the database
         user_details memory newuser = createUserStruct(
             _username,
-            curruser,
+            _wallet_addr,
             _full_name,
-            _dob,
             _aadhar_no,
             _pan_no
         ); //take inputs
@@ -121,6 +112,7 @@ contract LandInit {
 
     // do this properly
     function registerLand(
+        string memory _curruname,
         string memory _owner,
         string memory _land_id,
         string memory _state,
@@ -129,8 +121,7 @@ contract LandInit {
         uint256 _area_ha
     ) public {
         if (
-            keccak256(abi.encode(_owner)) !=
-            keccak256(abi.encode(addr_to_uname[curruser]))
+            keccak256(abi.encode(_owner)) != keccak256(abi.encode(_curruname))
         ) {
             // Check and verify if owner exists in system
             if (!verifyOwner(_owner)) return;
