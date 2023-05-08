@@ -2,7 +2,7 @@ import os, json
 
 
 def create_txn_json(
-    type_of_txn,
+    txn_type,
     old_land_id,
     seller,
     buyer,
@@ -13,7 +13,7 @@ def create_txn_json(
 ):
     # Create a dictionary with the input data
     data = {
-        "type_of_txn": type_of_txn,
+        "txn_type": txn_type,
         "old_land_id": old_land_id,
         "seller": seller,
         "buyer": buyer,
@@ -24,7 +24,9 @@ def create_txn_json(
     }
 
     # Write the data to a JSON file
-    with open(f"txn_{old_land_id}.json", "w") as outfile:
+    if not os.path.exists("files"):
+        os.mkdir("files")
+    with open(f"files/txn_{old_land_id}.json", "w") as outfile:
         json.dump(data, outfile)
 
     print("JSON file created successfully!")
@@ -36,13 +38,13 @@ def create_nft_json(json_file):
 
     land_id_arr = []
 
-    if data_dict["type_of_txn"] == "split":
-        land_id_arr[0] = data_dict["old_land_id"] + "_1"
-        land_id_arr[1] = data_dict["old_land_id"] + "_2"
+    if data_dict["txn_type"] == "split":
+        land_id_arr.append(data_dict["old_land_id"] + "_1")
+        land_id_arr.append(data_dict["old_land_id"] + "_2")
     else:
-        land_id_arr[0] = data_dict["old_land_id"]
+        land_id_arr.append(data_dict["old_land_id"])
 
-    if land_id_arr.size == 2:
+    if len(land_id_arr) == 2:
         new_entry_2 = {
             "land_id": land_id_arr[1],
             "new_owner": data_dict["seller"],
@@ -54,7 +56,9 @@ def create_nft_json(json_file):
         }
 
         # Write the data to a JSON file
-        with open(f"nft_{land_id_arr[1]}.json", "w") as outfile:
+        if not os.path.exists("files"):
+            os.mkdir("files")
+        with open(f"files/nft_{land_id_arr[1]}.json", "w") as outfile:
             json.dump(new_entry_2, outfile)
 
     # Create old entry
@@ -69,8 +73,16 @@ def create_nft_json(json_file):
     }
 
     # Write the data to a JSON file
-    with open(f"nft_{land_id_arr[0]}.json", "w") as outfile:
+    if not os.path.exists("files"):
+        os.mkdir("files")
+    with open(f"files/nft_{land_id_arr[0]}.json", "w") as outfile:
         json.dump(new_entry_1, outfile)
+
+
+def display_json(file_path):
+    with open(file_path, "r") as file:
+        data = json.load(file)
+    print(json.dumps(data, indent=4))
 
 
 # Call the function with user input
