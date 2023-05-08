@@ -7,9 +7,7 @@ pri_key_inspector = accounts[0]
 def deploy_all():
     # account = get_account()
     land_init = LandInit.deploy({"from": pri_key_inspector})
-    # nft_handling = LandToken.deploy({"from": pri_key_inspector})
-    print(len(LandInit))
-    # return land_init
+    nft_handling = LandToken.deploy({"from": pri_key_inspector})
 
 
 # def get_account():
