@@ -30,27 +30,6 @@ contract LandInit {
 
     mapping(address => string) addr_to_uname;
 
-    function createUserStruct(
-        string memory _username,
-        address _wallet_addr,
-        string memory _full_name,
-        string memory _aadhar_no,
-        string memory _pan_no
-    ) public pure returns (user_details memory) {
-        user_details memory user;
-
-        // check if the _pan_no and _aadhar_no is valid
-        // check if user is a valid person (above agelimit)
-
-        user.username = _username;
-        user.wallet_addr = _wallet_addr;
-        user.full_name = _full_name;
-        user.aadhar_no = _aadhar_no;
-        user.pan_no = _pan_no;
-
-        return user;
-    }
-
     function verifyOwner(string memory _username) public view returns (bool) {
         for (uint256 i = 0; i < usernames.length; i++) {
             if (
@@ -79,24 +58,34 @@ contract LandInit {
         return false;
     }
 
+    function createUserStruct(
+        string memory _username,
+        address _wallet_addr,
+        string memory _full_name,
+        string memory _aadhar_no,
+        string memory _pan_no
+    ) public pure returns (user_details memory) {
+        user_details memory user;
+
+        // check if the _pan_no and _aadhar_no is valid
+        // check if user is a valid person (above agelimit)
+
+        user.username = _username;
+        user.wallet_addr = _wallet_addr;
+        user.full_name = _full_name;
+        user.aadhar_no = _aadhar_no;
+        user.pan_no = _pan_no;
+
+        return user;
+    }
+
     function registerUser(
         string memory _username,
         address _wallet_addr,
         string memory _full_name,
-        // uint256 _dob,
         string memory _aadhar_no,
         string memory _pan_no
     ) public {
-        // check if user does not exist
-
-        // for (uint256 i = 0; i < usernames.length; i++) {
-        //     if (verifyOwner(_username)) {
-        //         //found
-        //         return;
-        //     }
-        // }
-
-        // if it does not:
         // save user in the database
         user_details memory newuser = createUserStruct(
             _username,
@@ -110,6 +99,24 @@ contract LandInit {
         user_list[_username] = newuser;
     }
 
+    function createLandStruct(
+        string memory _land_id,
+        string memory _state,
+        string memory _district,
+        uint256 _val_inr,
+        uint256 _area_ha
+    ) public pure returns (land_details memory) {
+        land_details memory land;
+
+        land.land_id = _land_id;
+        land.state = _state;
+        land.district = _district;
+        land.val_inr = _val_inr;
+        land.area_ha = _area_ha;
+
+        return land;
+    }
+
     // do this properly
     function registerLand(
         string memory _curruname,
@@ -119,13 +126,5 @@ contract LandInit {
         string memory _district,
         uint256 _val_inr,
         uint256 _area_ha
-    ) public {
-        if (
-            keccak256(abi.encode(_owner)) != keccak256(abi.encode(_curruname))
-        ) {
-            // Check and verify if owner exists in system
-            if (!verifyOwner(_owner)) return;
-        }
-        // mint nft by details
-    }
+    ) public {}
 }
