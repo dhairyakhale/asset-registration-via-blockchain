@@ -1,13 +1,13 @@
 from brownie import accounts, config, LandInit, LandToken, network
 from scripts.json_handler import create_txn_json, create_nft_json
 
-pri_key_inspector = accounts[0]
+PVT_KEY_INSPECTOR = accounts[0]
 
 
 def deploy_all():
     # account = get_account()
-    land_init = LandInit.deploy({"from": pri_key_inspector})
-    land_token = LandToken.deploy({"from": pri_key_inspector})
+    land_init = LandInit.deploy({"from": PVT_KEY_INSPECTOR})
+    land_token = LandToken.deploy({"from": PVT_KEY_INSPECTOR})
 
 
 # def get_account():

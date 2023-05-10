@@ -1,11 +1,11 @@
 from brownie import accounts, config, LandInit, LandToken, network
 from scripts.json_handler import create_txn_json, create_nft_json, display_json
+from scripts.deploy import PRI_KEY_INSPECTOR
 
 import os
 
-pvt_key_seller = accounts[1]
-pvt_key_buyer = accounts[2]
-pvt_key_land_inspector = accounts[3]
+PVT_KEY_SELLER = accounts[1]
+PRI_KEY_BUYER = accounts[2]
 
 land_init = LandInit[-1]
 land_token = LandToken[-1]
@@ -18,7 +18,7 @@ def register_user():
         print("User already exists!")
         return
     else:
-        _wallet_addr = pvt_key_seller
+        _wallet_addr = PVT_KEY_SELLER
         _full_name = input("Enter full name: ")
         _aadhar_no = input("Enter aadhar number: ")
         _pan_no = input("Enter PAN number: ")
@@ -29,13 +29,13 @@ def register_user():
             _full_name,
             _aadhar_no,
             _pan_no,
-            {"from": pvt_key_seller},
+            {"from": PVT_KEY_SELLER},
         )
 
 
 def register_land(uname):
     land_id = input("Enter Land ID: ")
-    if land_init.verifyLand(land_id, {"from": pvt_key_seller}) == True:
+    if land_init.verifyLand(land_id, {"from": PVT_KEY_SELLER}) == True:
         print("ERROR: Land exists.")
         return
     # Add check for land exists but with different owner
