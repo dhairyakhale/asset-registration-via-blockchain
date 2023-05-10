@@ -119,12 +119,13 @@ contract LandInit {
 
     // do this properly
     function registerLand(
-        string memory _curruname,
-        string memory _owner,
+        string memory _buyer,
+        string memory _seller,
         string memory _land_id,
         string memory _state,
         string memory _district,
         uint256 _val_inr,
-        uint256 _area_ha
+        uint256 _area_ha,
+        string memory uri
     ) public {}
 }
