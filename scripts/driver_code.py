@@ -2,7 +2,7 @@ from brownie import accounts, config, LandInit, LandToken, network
 from scripts.json_handler import create_txn_json, create_nft_json, display_json
 from scripts.deploy import KEY_INSPECTOR
 
-import os
+import os, json
 
 KEY_SELLER = accounts[1]
 KEY_BUYER = accounts[2]
@@ -62,8 +62,12 @@ def land_inspector(filename):
         os.remove(filename)
         print("Rejected.")
         return
-    create_nft_json(filename)
-    # land_token.safeMint("URI", , {"from:": KEY_INSPECTOR})
+    # with open(filename, "r") as f:
+    #     data_json = json.load(f)
+    # create_nft_json(filename)
+
+    # if data_json["txn_type"] == "split":
+    #     land_init.registerLand(data_json[""],{"from": KEY_INSPECTOR})
 
 
 def main():
